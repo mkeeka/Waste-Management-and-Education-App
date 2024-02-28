@@ -1,7 +1,7 @@
-"""Rymans""",64,"""Strand""","""London""","""WC2E 9JD"""
-"""Pret""",120,"""Kingsway""","""London""","""WC2F 8AR"""
-"""Costa""",4,"""Southampton Street""","""London""","""WC2E 7HG"""
-"""Tesco Express""",6,"""Bedford Street""","""London""","""WC2E 6HD"""
-"""Pret""",64,"""Long Acre""","""London""","""WC8H 3JD"""
-"""Rymans""",56,"""Long Acre""","""London""","""WC2E 9WE"""
-"""Tesco""",124,"""Strand""","""London""","""WC8U 6HD"""
+Rymans,64,Strand,London,WC2E 9JD
+Pret,120,Kingsway,London,WC2F 8AR
+Costa,4,Southampton Street,London,WC2E 7HG
+Tesco Express,6,Bedford Street,London,WC2E 6HD
+Pret,64,Long Acre,London,WC8H 3JD
+Rymans,56,Long Acre,London,WC2E 9WE
+Tesco,124,Strand,London,WC8U 6HD

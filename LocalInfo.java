@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 /**
  * Write a description of class LocalInfo here.
  *
@@ -54,7 +57,7 @@ public class LocalInfo
     public List<RecyclingCentre> getDetailsofNearbyCentres(String[] postcodes)
     {//Executes the statement below and returns a single integer, of the field specified. This seems like an odd method but is useful when operating queries such as COUNT.
         String query = "SELECT * FROM RecyclingCentres WHERE postcode = '" + postcodes[0] + "'";
-        for(int i = 0; i < postcodes.length; i++)
+        for(int i = 1; i < postcodes.length; i++)
         {
             query += " OR postcode = '" + postcodes[i] + "'";
         }
@@ -91,6 +94,25 @@ public class LocalInfo
     public void addCentre(RecyclingCentre centre)
     {
         execute("INSERT INTO RecyclingCentres VALUES ('" + centre.getName() + "', '" + centre.getStreetNo() + "', '" + centre.getStreetName() + "', '" + centre.getTown() + "', '" + centre.getPostcode() + "');");
+    }
+    
+    public void removeCentre(RecyclingCentre centre)
+    {
+        execute("DELETE FROM RecyclingCentres WHERE StreetNo = '" + centre.getStreetNo() + "' AND Postcode = '" + centre.getPostcode() + "';");
+    }
+
+    public void importFromCSV(String filePath) {
+        String line = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+        {
+            while ((line = br.readLine()) != null)
+            {
+                String[] data = line.split(",");
+                addCentre(new RecyclingCentre(data[0], Integer.parseInt(data[1]), data[2], data[3], data[4]));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close()

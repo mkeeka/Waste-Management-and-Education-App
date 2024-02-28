@@ -42,26 +42,27 @@ public class LocalInfoTest
     @Test
     public void databaseTest1() {
         LocalInfo li = new LocalInfo();
-        RecyclingCentre centre = new RecyclingCentre("Caffe Nero - Kingsway", 77, "Kingsway", "London", "WC2B 6ST");
+        RecyclingCentre centre = new RecyclingCentre("Caffe Nero", 77, "Kingsway", "London", "WC2B 6ST");
         li.addCentre(centre);
         String[] postcodes = {"WC2B 6ST"};
         List<RecyclingCentre> centres = li.getDetailsofNearbyCentres(postcodes);
-        System.out.println(centres.get(0).getName());
-        assertEquals(centres.get(0).getName(), "Caffe Nero - Kingsway");
+        assertEquals(centres.get(0).getName(), "Caffe Nero");
         assertEquals(centres.get(0).getStreetNo(), 77);
         assertEquals(centres.get(0).getStreetName(), "Kingsway");
         assertEquals(centres.get(0).getTown(), "London");
-        assertEquals(centres.get(0).getPostcode(), postcodes[0]);
+        assertEquals(centres.get(0).getPostcode(), "WC2B 6ST");
+        li.removeCentre(centre);
     }
     
     @Test
     public void databaseTest2() {
         LocalInfo li = new LocalInfo();
-        RecyclingCentre centre = new RecyclingCentre("Caffe Nero - Kingsway", 77, "Kingsway", "London", "WC2B 6ST");
+        RecyclingCentre centre = new RecyclingCentre("Caffe Nero", 77, "Kingsway", "London", "WC2B 6ST");
         li.addCentre(centre);
         String[] postcodes = {"WC2B 6SA"};
         List<RecyclingCentre> centres = li.getDetailsofNearbyCentres(postcodes);
         assertEquals(centres.size(), 0);
+        li.removeCentre(centre);
     }
 }
 
