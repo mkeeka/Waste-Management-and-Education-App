@@ -25,7 +25,7 @@ public class LocalInfo
         try
         {
             Class.forName("org.sqlite.JDBC");//Specify the SQLite Java driver
-            conn = DriverManager.getConnection("jdbc:sqlite:CPMS.db");//Specify the database, since relative in the main project folder
+            conn = DriverManager.getConnection("jdbc:sqlite:localInfo.db");//Specify the database, since relative in the main project folder
             conn.setAutoCommit(false);// Important as I want control of when data is written
         }
         catch(Exception e)
@@ -35,7 +35,7 @@ public class LocalInfo
         }
     }
 
-    public void execute(String query)
+    private void execute(String query)
     {
         Statement stmt;
         try
@@ -51,9 +51,9 @@ public class LocalInfo
         }
     }
 
-    public List<RecyclingCentre> getDetails(String[] postcodes)
+    public List<RecyclingCentre> getDetailsofNearbyCentres(String[] postcodes)
     {//Executes the statement below and returns a single integer, of the field specified. This seems like an odd method but is useful when operating queries such as COUNT.
-        String query = "SELECT * FROM localInfo WHERE postcode = '" + postcodes[0] + "'";
+        String query = "SELECT * FROM RecyclingCentres WHERE postcode = '" + postcodes[0] + "'";
         for(int i = 0; i < postcodes.length; i++)
         {
             query += " OR postcode = '" + postcodes[i] + "'";
@@ -78,6 +78,19 @@ public class LocalInfo
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         return centreList;
+    }
+    
+    public void addCentres(RecyclingCentre[] centres)
+    {
+        for(RecyclingCentre centre : centres)
+        {
+            addCentre(centre);
+        }
+    }
+    
+    public void addCentre(RecyclingCentre centre)
+    {
+        execute("INSERT INTO RecyclingCentres VALUES ('" + centre.getName() + "', '" + centre.getStreetNo() + "', '" + centre.getStreetName() + "', '" + centre.getTown() + "', '" + centre.getPostcode() + "');");
     }
 
     public void close()
