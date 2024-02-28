@@ -3,6 +3,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -49,17 +51,25 @@ public class LocalInfo
         }
     }
 
-    public int getInt(String query, String field)
+    public List<RecyclingCentre> getDetails(String[] postcodes)
     {//Executes the statement below and returns a single integer, of the field specified. This seems like an odd method but is useful when operating queries such as COUNT.
+        String query = "SELECT * FROM localInfo WHERE postcode = '" + postcodes[0] + "'";
+        for(int i = 0; i < postcodes.length; i++)
+        {
+            query += " OR postcode = '" + postcodes[i] + "'";
+        }
+        query += ";";
         Statement stmt;
         ResultSet rs;
-        int temp = 0;
+        List<RecyclingCentre> centreList = new ArrayList<RecyclingCentre>();
         try
         {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            rs.next();
-            temp = rs.getInt(field);
+            while(rs.next())
+            {
+                centreList.add(new RecyclingCentre(rs.getString("Name"), rs.getInt("StreetNo"), rs.getString("StreetName"), rs.getString("Town"), rs.getString("Postcode")));
+            }
             rs.close();
             stmt.close();
         }
@@ -67,7 +77,7 @@ public class LocalInfo
         {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        return temp;
+        return centreList;
     }
 
     public void close()
